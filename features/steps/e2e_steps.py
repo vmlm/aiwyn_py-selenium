@@ -8,8 +8,6 @@ from scripts import browser_config, logger_config
 
 @given('I am using {browser}')
 def setup_browser(context, browser):
-    # Set the WDM logger level to ERROR, so we don't get webdriver configuration messages
-    logger_config.set_logger_level_error('WDM')
     context.driver = browser_config.get_driver(browser)
 
 

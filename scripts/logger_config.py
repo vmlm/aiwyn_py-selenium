@@ -1,7 +1,7 @@
 import logging
 
 
-def configure_logger(context):
+def configure_behave_logger(context):
     # Configure logging programmatically
     logger = logging.getLogger('behave')
     logger.setLevel(logging.INFO)
@@ -20,6 +20,7 @@ def configure_logger(context):
     return logger
 
 
-def set_logger_level_error(logger):
-    logging.getLogger(logger).setLevel(logging.ERROR)
+def configure_additional_loggers(context):
+    # Set the WDM logger level to ERROR, so we don't get webdriver configuration messages
+    logging.getLogger('WDM').setLevel(logging.ERROR)
 

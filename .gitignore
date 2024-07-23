@@ -1,0 +1,6 @@
+/results/
+/venv/
+/.idea/
+/.vscode/
+demoblaze_tests.zip
+/scripts/__pycache__/

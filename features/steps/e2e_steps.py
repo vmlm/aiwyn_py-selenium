@@ -3,14 +3,14 @@ import random
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from scripts import browser_manager, logger_manager
+from scripts import browser_config, logger_config
 
 
 @given('I am using {browser}')
 def setup_browser(context, browser):
     # Set the WDM logger level to ERROR, so we don't get webdriver configuration messages
-    logger_manager.set_logger_level_error('WDM')
-    context.driver = browser_manager.get_driver(browser)
+    logger_config.set_logger_level_error('WDM')
+    context.driver = browser_config.get_driver(browser)
 
 
 @when('I navigate to the demoblaze home page')

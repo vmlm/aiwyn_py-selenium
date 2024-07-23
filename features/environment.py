@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from scripts import logger_manager
+from scripts import logger_config
 
 
 
@@ -10,7 +10,7 @@ def before_all(context):
     context.results_dir = f"./results/{timestamp}"
     context.screenshots_dir = f"{context.results_dir}/screenshots"
     os.makedirs(context.screenshots_dir, exist_ok=True)
-    context.logger = logger_manager.configure_logger(context)
+    context.logger = logger_config.configure_logger(context)
 
     # Setup home and api urls
     context.home_url = 'https://www.demoblaze.com/'

@@ -33,7 +33,7 @@ class TestLoginandpay():
 
     # Check for available invoices before continuing.
     try:
-      checkboxes = WebDriverWait(self.driver, 30).until(
+      checkboxes = WebDriverWait(self.driver, 10).until(
         ec.presence_of_all_elements_located((By.NAME, 'checkbox'))
       )
       checkboxes[0].click()

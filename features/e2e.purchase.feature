@@ -1,11 +1,11 @@
 Feature: Purchase products
 
   Scenario Outline: Purchase two random products
-    Given I am using <browser>
+    Given I am using "<browser>"
     When I navigate to the demoblaze home page
     And I add two random products to the cart
     And I visualize the cart
-    And I the place order with the following data
+    And I place the order with the following data
       | Field   | Value     |
       | Name    | John Doe  |
       | Country | USA       |

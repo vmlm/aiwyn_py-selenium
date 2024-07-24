@@ -3,10 +3,10 @@ import random
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from scripts import browser_config, logger_config
+from scripts import browser_config, logger_config, tools
 
 
-@given('I am using {browser}')
+@given('I am using "{browser}"')
 def setup_browser(context, browser):
     context.driver = browser_config.get_driver(browser)
 
@@ -72,10 +72,10 @@ def navigate_to_cart(context):
     )
 
     context.logger.info("Navigated to cart page")
-    capture_screenshot(context, "cart_with_two_products")
+    tools.capture_screenshot(context, "cart_with_two_products")
 
 
-@when('I the place order with the following data')
+@when('I place the order with the following data')
 def place_order(context):
     place_order_button = context.driver.find_element(By.CSS_SELECTOR, "button.btn.btn-success")
 
@@ -94,7 +94,7 @@ def place_order(context):
         input_field.send_keys(row[1])
 
     context.logger.info("Completed the form...")
-    capture_screenshot(context, "completed_form")
+    tools.capture_screenshot(context, "completed_form")
 
     purchase_button = WebDriverWait(context.driver, 10).until(
         ec.element_to_be_clickable((By.XPATH, "//button[text()='Purchase']"))
@@ -111,9 +111,49 @@ def check_successful_purchase(context):
         ec.visibility_of_element_located((By.CSS_SELECTOR, "div.sa-icon.sa-success.animate"))
     )
     context.logger.info("And verified the successful purchase screen")
-    capture_screenshot(context, "successful_purchase")
+    tools.capture_screenshot(context, "successful_purchase")
 
+@then('I should see the successful user registration dialog')
+def step_then(context):
+    WebDriverWait(context.driver, 10).until(ec.alert_is_present())
 
-def capture_screenshot(context, step_name):
-    screenshot_path = f"{context.screenshots_dir}/{step_name}.png"
-    context.driver.save_screenshot(screenshot_path)
+    # Click the accept button
+    alert = context.driver.switch_to.alert
+    assert alert.text == "Sign up successful."
+    alert.accept()
+    context.logger.info('Asserted that the successful sign up alert appears on screen.')
+
+@when('I click on the "Sign up" button in the sign-up form')
+def step_when(context):
+    signup_text = WebDriverWait(context.driver, 10).until(
+        ec.visibility_of_element_located((By.CSS_SELECTOR, "#signInModal .btn-primary"))
+    )
+    signup_text.click()
+    context.logger.info('Clicked on the "Sign up" button in the sign-up form')
+
+@when('I fill out the sign-up form with a non-existant, valid username and password')
+def step_when(context):
+    username_field = WebDriverWait(context.driver, 10).until(
+        ec.element_to_be_clickable((By.ID, "sign-username"))
+    )
+    new_username = tools.append_random_hash(context.test_user)
+    username_field.clear()
+    username_field.send_keys(new_username)
+    context.logger.info('Added valid username')
+    
+    password_field = WebDriverWait(context.driver, 10).until(
+        ec.element_to_be_clickable((By.ID, "sign-password"))
+    )
+
+    password_field.send_keys(new_username)
+    context.logger.info('Added valid password')
+    tools.capture_screenshot(context, "filled_signup_form")
+    
+@when('I click on "Sign up" in the header')
+def step_when(context):
+    signup_button = WebDriverWait(context.driver, 10).until(
+        ec.visibility_of_element_located((By.ID, "signin2"))
+    )
+    signup_button.click()
+    context.logger.info('Clicked on "Sign up" in the header')
+

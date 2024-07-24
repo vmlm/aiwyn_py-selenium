@@ -19,8 +19,8 @@ I've chosen to implement the tests as BDD feature scripts, relying on Python and
 
 Some more implementation details:
 * I've defined separate scripts to manage the selenium webdriver and logger configuration, just to keep it separate and make it easier to call.
-* The logger is actually set up in the environment.py script, before testing begins.
-* The driver is set up the first time the target website is accessed. This allows me to specify different browser drivers and configurations for each test.
+* The logger is set up in the environment.py script, before testing begins.
+* The driver is set up the first time the target website is accessed in a given scenario. This allows me to specify different browser drivers and configurations for each scenario.
 * The homepage URL is defined once, in environment.py
 
 ## Project Structure
@@ -30,7 +30,7 @@ aiwyn_py-selenium (root)
 |       |-- steps: contains python feature step implementations
 |-- scripts: contains all auxiliary scripts.
 
-After running the tests, teh following additional directories are created:
+After running the tests, the following additional directories are created:
 aiwyn_py-selenium (root)
 |-- results: contains test run reports
 |       |-- {test timestamp}: a single test run report

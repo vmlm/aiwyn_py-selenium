@@ -30,20 +30,22 @@ class TestLoginandpay():
         ec.element_to_be_clickable((By.ID, 'loginButton'))
     )
     login_button.click()
-    
-    checkboxes = WebDriverWait(self.driver, 30).until(
-      ec.presence_of_all_elements_located((By.NAME, 'checkbox'))
-    )
-    checkboxes[0].click()
 
     # Check for available invoices before continuing.
     try:
-      WebDriverWait(self.driver, 30).until(
-        ec.presence_of_element_located((By.CSS_SELECTOR, ".mat-row:nth-child(1) .form-checkbox__input"))
-      ).click()
+      checkboxes = WebDriverWait(self.driver, 30).until(
+        ec.presence_of_all_elements_located((By.NAME, 'checkbox'))
+      )
+      checkboxes[0].click()
     except TimeoutException:
       print("Test could not continue: No available invoices.")
       return
+
+    
+    WebDriverWait(self.driver, 30).until(
+      ec.presence_of_element_located((By.CSS_SELECTOR, ".mat-row:nth-child(1) .form-checkbox__input"))
+    ).click()
+
 
     selected_invoice_amount = WebDriverWait(self.driver, 30).until(
       ec.presence_of_element_located((By.CSS_SELECTOR, ".mat-row:nth-child(1) .mat-column-amount"))
